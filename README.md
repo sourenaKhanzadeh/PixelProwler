@@ -1,5 +1,22 @@
 # PixelProwler
+
+PixelProwler is a web spider that crawls the internet for images based on user-provided prompts. It uses advanced web crawling and image recognition technology to search for and return relevant results.
+
+## Installation
+
+To install PixelProwler, clone this repository and run the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+```bash
+python main.py "cat pictures"
+```
+
 ## Project Structure
+```
 .
 ├── src
 │   ├── __init__.py
@@ -13,17 +30,6 @@
 │       ├── web_utils.py
 │       └── data_utils.py
 ├── data
-│   ├── images
-│   │   ├── image1.jpg
-│   │   ├── image2.jpg
-│   │   └── image3.jpg
-│   ├── pages
-│   │   ├── page1.html
-│   │   ├── page2.html
-│   │   └── page3.html
-│   └── database
-│       ├── images.db
-│       └── pages.db
 ├── tests
 │   ├── __init__.py
 │   ├── test_spider.py
@@ -40,3 +46,4 @@
 │   └── developer_guide.md
 ├── requirements.txt
 └── setup.py
+```
