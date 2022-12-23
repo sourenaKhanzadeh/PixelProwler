@@ -2,14 +2,14 @@ import requests
 from PIL import Image
 from io import BytesIO
 from sklearn.cluster import KMeans
-from spider import Spider, BeautifulSoup
+from .spider import Spider, BeautifulSoup
 import numpy as np
 
 class ImageSearch:
     def __init__(self, model_path):
         self.model_path = model_path
         self.model = self._load_model()
-        self.spider = Spider()
+        self.spider = Spider("https://www.google.com/")
 
     def search(self, prompt, num_results=10):
         """Searches the web for images based on the specified prompt and returns a list of image URLs."""
