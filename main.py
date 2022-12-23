@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append('..')
+
 import argparse
 from src import search
 

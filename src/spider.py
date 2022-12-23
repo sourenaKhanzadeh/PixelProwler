@@ -2,48 +2,26 @@ import requests
 from bs4 import BeautifulSoup
 
 class Spider:
-    def __init__(self, base_url):
-        self.base_url = base_url
-        self.visited = set()
+    def __init__(self):
+        self.base_url = 'https://www.google.com/search?q='
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+        self.queue = []
 
-    def crawl(self, url):
-        """Crawls the specified URL and returns the HTML content."""
-        # Add the URL to the visited set to avoid revisiting
-        self.visited.add(url)
+    def crawl(self, query):
+        """Sends a search request to Google and returns the HTML content of the search results page."""
+        query = query.replace(' ', '+')
+        url = self.base_url + query
+        response = requests.get(url, headers=self.headers)
+        html = response.text
 
-        # Send a GET request to the URL and parse the response
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
+        return html
 
-        # Extract links from the page and add them to the queue
-        links = self._extract_links(soup)
-        self._add_to_queue(links)
-
-        # Return the HTML content of the page
-        return response.text
-
-    def _extract_links(self, soup):
-        """Extracts all links from the specified BeautifulSoup object."""
+    def _extract_links(self, html):
+        """Extracts all links from the specified HTML content."""
+        soup = BeautifulSoup(html, 'html.parser')
         links = []
-        for link in soup.find_all('a'):
-            href = link.get('href')
-            if href and self._is_valid_link(href):
-                links.append(href)
+        for a in soup.find_all('a'):
+            href = a.get('href')
+            if href and 'url?q=' in href and 'webcache' not in href:
+                links.append(href.split('?q=')[1].split('&sa=')[0])
         return links
-
-    def _is_valid_link(self, link):
-        """Returns true if the specified link is a valid URL to crawl."""
-        # Check if the link is an absolute or relative URL
-        if link.startswith('http'):
-            return True
-        elif link.startswith('/'):
-            link = self.base_url + link
-            return True
-        else:
-            return False
-
-    def _add_to_queue(self, links):
-        """Adds the specified links to the crawl queue if they have not been visited."""
-        for link in links:
-            if link not in self.visited:
-                self.queue.append(link)

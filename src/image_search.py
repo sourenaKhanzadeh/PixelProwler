@@ -9,7 +9,7 @@ class ImageSearch:
     def __init__(self, model_path):
         self.model_path = model_path
         self.model = self._load_model()
-        self.spider = Spider("https://www.google.com/")
+        self.spider = Spider()
 
     def search(self, prompt, num_results=10):
         """Searches the web for images based on the specified prompt and returns a list of image URLs."""
